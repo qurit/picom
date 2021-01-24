@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from api import session
 from api.auth import admin_auth
 from api.auth import token_auth
-from api.models.user import User, UserLocal, UserDestination
+from api.models.user import User, UserLocal, UserApplicationEntity
 from api.schemas.destination import Destination
 from api.schemas.user import User as UserSchema, UserLocalCreate, UserEdit, PermittedApplicationEntities, \
     ApplicationEntity
@@ -56,6 +56,7 @@ def edit_user_settings(user_id: int, new_info: UserEdit, user: User = Depends(to
     user_to_edit.ae_title = new_info.ae_title
     user_to_edit.save(db)
     return user_to_edit
+
 
 @router.post("/permitted-ae", response_model=List[Destination])
 def update_permitted_ae(destinations: PermittedApplicationEntities, user: User = Depends(token_auth), db: Session = Depends(session)):

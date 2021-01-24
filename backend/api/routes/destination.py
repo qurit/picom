@@ -6,7 +6,7 @@ from typing import List
 
 from api import session
 from api.schemas import destination
-from api.models.destination import Destination
+from api.models.application_entity import ApplicationEntity
 from api.auth import token_auth
 
 

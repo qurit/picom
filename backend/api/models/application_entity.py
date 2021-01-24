@@ -8,7 +8,7 @@ from api.models.pipeline import PipelineNode
 from . import Base
 
 
-class Destination(Base):
+class ApplicationEntity(Base):
     host = Column(String)
     port = Column(Integer)
     full_name = Column(String)

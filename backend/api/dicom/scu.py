@@ -4,17 +4,17 @@ from pydicom import dcmread
 from pynetdicom import AE, StoragePresentationContexts
 from pynetdicom.sop_class import VerificationSOPClass
 
-from api.models.destination import Destination
+from api.models.application_entity import ApplicationEntity
 from .assocation import Association, AssociationException
 
 
-def send_dicom_folder(dest: Destination, abs_dicom_folder: str):
+def send_dicom_folder(ae: ApplicationEntity, abs_dicom_folder: str):
     """
     Send a dicom folder to a DICOM node using a c_store.
     """
 
     try:
-        with Association(dest, StoragePresentationContexts) as assoc:
+        with Association(ae, StoragePresentationContexts) as assoc:
             for root, _, files in os.walk(abs_dicom_folder):
                 for file in files:
                     if file.endswith('.dcm'):
@@ -27,13 +27,12 @@ def send_dicom_folder(dest: Destination, abs_dicom_folder: str):
         print(e)
 
 
-def send_echo(dest: Destination):
+def send_echo(ae: ApplicationEntity):
 
     try:
-        with Association(dest, VerificationSOPClass) as assoc:
+        with Association(ae, VerificationSOPClass) as assoc:
             status = assoc.send_c_echo()
             return bool(status)
 
     except AssociationException:
         return False
-

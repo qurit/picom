@@ -5,5 +5,4 @@ from . import dicom
 from . import user
 from . import pipeline
 from . import container
-from . import destination
-
+from . import application_entity

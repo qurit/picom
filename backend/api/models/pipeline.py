@@ -36,13 +36,13 @@ class Pipeline(Base):
 class PipelineNode(Base):
     pipeline_id = Column(ForeignKey("pipeline.id", **CASCADE))
     container_id = Column(ForeignKey("container.id"))
-    destination_id = Column(ForeignKey("destination.id"))
+    application_entity_id = Column(ForeignKey("application_entity.id"))
     x_coord = Column(Integer)
     y_coord = Column(Integer)
     container_is_input = Column(Boolean)
     container_is_output = Column(Boolean)
 
-    destination = relationship("Destination", uselist=False)
+    application_entity = relationship("ApplicationEntity", uselist=False)
     container = relationship("Container", uselist=False)
     next_links = relationship('PipelineLink', foreign_keys='PipelineLink.from_node_id')
     previous_links = relationship('PipelineLink', foreign_keys='PipelineLink.to_node_id')

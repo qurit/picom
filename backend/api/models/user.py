@@ -63,8 +63,8 @@ class UserLocal(Base):
         return super().save(*args, **kwargs)
 
 
-class UserDestination(Base):
+class UserApplicationEntity(Base):
     user_id = Column(ForeignKey("user.id", ondelete="CASCADE"))
-    destination_id = Column(ForeignKey("destination.id", ondelete="CASCADE"))
+    application_entity_id = Column(ForeignKey("application_entity.id", ondelete="CASCADE"))
 
-    destination = relationship('Destination', uselist=False)
+    application_entity = relationship('ApplicationEntity', uselist=False)
