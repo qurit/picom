@@ -8,7 +8,7 @@ from api import session
 from api.auth import admin_auth
 from api.auth import token_auth
 from api.models.user import User, UserLocal, UserApplicationEntity
-from api.schemas.destination import Destination
+from api.schemas.application_entity import ApplicationEntity
 from api.schemas.user import User as UserSchema, UserLocalCreate, UserEdit, PermittedApplicationEntities, \
     ApplicationEntity
 
@@ -58,19 +58,19 @@ def edit_user_settings(user_id: int, new_info: UserEdit, user: User = Depends(to
     return user_to_edit
 
 
-@router.post("/permitted-ae", response_model=List[Destination])
-def update_permitted_ae(destinations: PermittedApplicationEntities, user: User = Depends(token_auth), db: Session = Depends(session)):
+@router.post("/permitted-ae", response_model=List[ApplicationEntity])
+def update_permitted_ae(aes: PermittedApplicationEntities, user: User = Depends(token_auth), db: Session = Depends(session)):
     """ Update the user's application title"""
-    db.query(UserDestination).filter(
-        UserDestination.user_id == user.id).delete()
-    user_destinations = destinations.destinations
-    for dest in user_destinations:
-        new_destination_user = UserDestination(user_id=user.id, destination_id=dest.id)
-        new_destination_user.save(db)
-    return user_destinations
+    db.query(UserApplicationEntity).filter(
+        UserApplicationEntity.user_id == user.id).delete()
+    user_aes = aes.aes
+    for ae in user_aes:
+        new_ae_user = UserApplicationEntity(user_id=user.id, ae=ae.id)
+        new_ae_user.save(db)
+    return user_aes
 
 
 @router.get("/permitted-ae", response_model=List[ApplicationEntity])
 def get_permitted_ae(user: User = Depends(token_auth), db: Session = Depends(session)):
     """ Get the user's permitted application entities (to receive) """
-    return db.query(UserDestination).filter(UserDestination.user_id == user.id).all()
+    return db.query(UserApplicationEntity).filter(UserApplicationEntity.user_id == user.id).all()

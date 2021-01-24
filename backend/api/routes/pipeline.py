@@ -172,7 +172,7 @@ def update_pipeline(pipeline_id: int, pipeline_update: schemas.PipelineUpdate, d
         y_coord=node.y,
         container_is_input=node.container_is_input,
         container_is_output=node.container_is_output,
-        destination_id=node.destination_id
+        application_entity_id=node.application_entity_id
     ).save(db) for node in pipeline_update.nodes}
 
     for link in pipeline_update.links:

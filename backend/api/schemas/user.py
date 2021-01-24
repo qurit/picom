@@ -2,7 +2,7 @@ from typing import Optional, List
 from datetime import datetime
 
 from . import BaseORMModel, BaseModel
-from .destination import Destination
+from .application_entity import ApplicationEntity
 
 
 class UserLocalCreate(BaseModel):
@@ -34,11 +34,11 @@ class UserEdit(BaseModel):
 
 
 class PermittedApplicationEntities(BaseModel):
-    destinations: Optional[List[Destination]]
+    application_entity: Optional[List[ApplicationEntity]]
 
 
 class ApplicationEntity(BaseORMModel):
-    destination: Destination
+    application_entity: ApplicationEntity
 
 
 class Token(BaseModel):

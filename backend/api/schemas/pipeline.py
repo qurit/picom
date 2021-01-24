@@ -8,7 +8,7 @@ from api.pipelining.utils import validate_pipeline_structure
 
 from . import BaseModel, BaseORMModel
 from .container import Container
-from .destination import Destination
+from .application_entity import ApplicationEntity
 
 
 class PipelineStats(BaseModel):
@@ -38,7 +38,7 @@ class PipelineNodeCreate(BaseModel):
     y: int
     container_is_input: bool
     container_is_output: bool
-    destination_id: Optional[int]
+    application_entity_id: Optional[int]
 
 
 class PipelineNode(BaseORMModel):
@@ -49,7 +49,7 @@ class PipelineNode(BaseORMModel):
     container_is_input: bool
     container_is_output: bool
     container: Container
-    destination: Optional[Destination]
+    application_entity_id: Optional[ApplicationEntity]
 
 
 class PipelineLinkCreate(BaseModel):
