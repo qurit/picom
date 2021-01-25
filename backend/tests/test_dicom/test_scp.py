@@ -100,7 +100,7 @@ def test_echo():
 
 
 def test_store_global(db, stub_broker, stub_worker):
-    # Ensure no DicomNodes in test data 
+    # Ensure no DicomNodes in test data
     db.query(DicomNode).delete()
     db.commit()
 
@@ -126,14 +126,14 @@ def test_store_global(db, stub_broker, stub_worker):
     join(stub_broker, stub_worker)
 
     assert (node := db.query(DicomNode).first())
-    assert node.user_id == None # Node should not be tied to one user
+    assert node.user_id == None  # Node should not be tied to one user
     for uid in uids_added:
         assert models.dicom.DicomSeries.query(db).filter_by(series_instance_uid=uid).first(), \
             f'Could not find series_instance_uid={uid} in db'
 
 
 def test_store_valid_user(db, stub_broker, stub_worker):
-    # Ensure no DicomNodes in test data 
+    # Ensure no DicomNodes in test data
     db.query(DicomNode).delete()
     db.commit()
 
@@ -148,7 +148,7 @@ def test_store_valid_user(db, stub_broker, stub_worker):
 
 
 def test_store_invalid_user(db, stub_broker, stub_worker):
-    # Ensure no DicomNodes in test data 
+    # Ensure no DicomNodes in test data
     db.query(DicomNode).delete()
     db.commit()
 
@@ -174,7 +174,7 @@ def test_store_valid_pipeline_no_containers(db, stub_broker, stub_worker):
 
     # Ensure SCP server has time to process request and generate PipelineRun record
     try:
-        assert init_pipeline_run_count < db.query(PipelineRun).count() 
+        assert init_pipeline_run_count < db.query(PipelineRun).count()
     except AssertionError:
         sleep(3)  # DB not updated, try waiting first
         assert init_pipeline_run_count < db.query(PipelineRun).count()
@@ -222,7 +222,7 @@ def test_store_invalid_pipeline(db, stub_broker, stub_worker):
 
     assert init_pipeline_run_count == db.query(PipelineRun).count()
 
-    
+
 @mark.not_written
 def test_store_same_instance(db, association):
     assert os.path.exists(mock_path := os.path.join(os.path.dirname(__file__), 'mock_data'))
@@ -265,7 +265,7 @@ def perform_store(association):
     for root, _, files in os.walk(mock_path):
         for file in files:
             if file.endswith('.dcm'):
-                ds = dcmread(os.path.join(root, file)) 
+                ds = dcmread(os.path.join(root, file))
 
                 status = association.send_c_store(ds)
                 assert status
@@ -280,13 +280,13 @@ def add_container_to_pipeline(container, pipeline, authorization_header):
             "pipeline_id": pipeline.id,
             "nodes": [
                 {
-                "node_id": 0,
-                "container_id": container.id,
-                "x": 0,
-                "y": 0,
-                "container_is_input": False,
-                "container_is_output": False,
-                "association_entity_id": 0
+                    "node_id": 0,
+                    "container_id": container.id,
+                    "x": 0,
+                    "y": 0,
+                    "container_is_input": False,
+                    "container_is_output": False,
+                    "application_entity_id": 0
                 }
             ],
             "links": []

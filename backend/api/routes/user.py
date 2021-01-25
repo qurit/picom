@@ -65,7 +65,7 @@ def update_permitted_ae(aes: PermittedApplicationEntities, user: User = Depends(
         UserApplicationEntity.user_id == user.id).delete()
     user_aes = aes.aes
     for ae in user_aes:
-        new_ae_user = UserApplicationEntity(user_id=user.id, ae=ae.id)
+        new_ae_user = UserApplicationEntity(user_id=user.id, application_entity_id=ae.id)
         new_ae_user.save(db)
     return user_aes
 
