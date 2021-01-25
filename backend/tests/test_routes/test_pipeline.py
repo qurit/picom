@@ -81,7 +81,7 @@ def test_create_pipeline_cyclic(authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
             }
         ],
         "links": [
@@ -115,7 +115,7 @@ def test_create_pipeline_disconnected(authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
             },
             {
                 "node_id": 1,
@@ -124,7 +124,7 @@ def test_create_pipeline_disconnected(authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
             }
         ],
         "links": []
@@ -153,7 +153,7 @@ def test_duplicated_node_ids(authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
             },
             {
                 "node_id": 0,
@@ -162,7 +162,7 @@ def test_duplicated_node_ids(authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
             }
         ],
         "links": []
@@ -191,7 +191,7 @@ def test_create_pipeline_connected(authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
             },
         ],
         "links": []

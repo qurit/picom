@@ -19,24 +19,24 @@
       <v-select
         v-if="container_is_output"
         v-model="selected"
-        :items="destinations"
+        :items="applicationEntities"
         item-text="full_name"
         item-value="id"
         label="Application Entity"
         dense
         solo
         flat
-        @change="changeDestination(selected)"
+        @change="changeApplicationEntity(selected)"
       >
         <template v-slot:prepend-item>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-                Add A Destination
+                Add an Application Entity
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <v-icon-btn add @click="destinationDialog = true" />
+              <v-icon-btn add @click="applicationEntityDialog = true" />
             </v-list-item-action>
           </v-list-item>
           <v-divider light />
@@ -70,13 +70,15 @@
         class="node-port node-output"
         @mousedown="$emit('linkingStart')"
       />
-      <!-- Destination Dialogs -->
+      <!-- Application Entity Dialogs -->
       <v-dialog
-        v-model="destinationDialog"
+        v-model="applicationEntityDialog"
         max-width="900px"
         min-height="600px"
       >
-        <OutputDestinationForm @closeDialog="destinationDialog = false" />
+        <OutputApplicationEntityForm
+          @closeDialog="applicationEntityDialog = false"
+        />
       </v-dialog>
     </v-card>
   </v-hover>
@@ -84,12 +86,12 @@
 
 <script>
 import FlowchartNodePort from './FlowchartNodePort.vue'
-import OutputDestinationForm from './OutputDestinationForm'
+import OutputApplicationEntityForm from './OutputApplicationEntityForm'
 import { mapState } from 'vuex'
 
 export default {
   name: 'FlowchartNode',
-  components: { FlowchartNodePort, OutputDestinationForm },
+  components: { FlowchartNodePort, OutputApplicationEntityForm },
   props: {
     canEdit: { type: Boolean },
     id: { type: Number },
@@ -98,7 +100,7 @@ export default {
     type: { type: String },
     container_is_input: { type: Boolean },
     container_is_output: { type: Boolean },
-    destination: { type: Object },
+    applicationEntity: { type: Object },
     options: {
       type: Object,
       default() {
@@ -129,14 +131,14 @@ export default {
     }
   },
   data: () => ({
-    destinationDialog: false,
+    applicationEntityDialog: false,
     show: {
       delete: false
     },
     selected: undefined
   }),
   computed: {
-    ...mapState('destination', ['destinations']),
+    ...mapState('applicationEntity', ['applicationEntities']),
     nodeStyle() {
       return {
         top: this.options.centerY + this.y * this.options.scale + 'px',
@@ -151,11 +153,11 @@ export default {
     }
   },
   methods: {
-    changeDestination(destination) {
-      const { host, port } = this.destinations[this.selected - 1]
-      this.$emit('setDestination', {
+    changeApplicationEntity(applicationEntity) {
+      const { host, port } = this.applicationEntities[this.selected - 1]
+      this.$emit('setApplicationEntity', {
         pipelineNodeId: this.id,
-        destinationId: this.destinations[this.selected - 1].id
+        applicationEntityId: this.applicationEntities[this.selected - 1].id
       })
     },
     handleMousedown(e) {
@@ -170,12 +172,12 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('destination/fetchDestinations')
-    this.selected = this.destination
+    this.$store.dispatch('applicationEntity/fetchApplicationEntities')
+    this.selected = this.applicationEntity
     if (this.selected) {
-      this.$emit('setDestination', {
+      this.$emit('setApplicationEntity', {
         pipelineNodeId: this.id,
-        destinationId: this.selected?.id
+        applicationEntityId: this.selected?.id
       })
     }
   }

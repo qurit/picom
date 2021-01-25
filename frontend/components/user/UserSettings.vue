@@ -19,7 +19,7 @@
       class="mx-2"
       hint="Choose which Application Entities can send to you"
       persistent-hint
-      :items="destinations"
+      :items="applicationEntities"
       item-text="full_name"
       return-object
       label="Allowed Application Entities"
@@ -32,7 +32,7 @@
     </v-select>
     <v-row justify="center" align="center">
       Add an Application Entity
-      <v-icon-btn add @click="destinationDialog = true" />
+      <v-icon-btn add @click="applicationEntityDialog = true" />
     </v-row>
     <v-divider class="my-3" light />
     <v-card-actions class="justify-center">
@@ -44,8 +44,14 @@
         >Save Changes</v-btn
       >
     </v-card-actions>
-    <v-dialog v-model="destinationDialog" max-width="900px" min-height="600px">
-      <OutputDestinationForm @closeDialog="destinationDialog = false" />
+    <v-dialog
+      v-model="applicationEntityDialog"
+      max-width="900px"
+      min-height="600px"
+    >
+      <OutputApplicationEntityForm
+        @closeDialog="applicationEntityDialog = false"
+      />
     </v-dialog>
   </v-card>
 </template>
@@ -53,16 +59,16 @@
 <script>
 import { mapState } from 'vuex'
 import { generic_get, generic_post } from '~/api'
-import { OutputDestinationForm } from '~/components/flowchart'
+import { OutputApplicationEntityForm } from '~/components/flowchart'
 import { validateAETitle } from '~/utilities/validationRules'
 
 export default {
   components: {
-    OutputDestinationForm
+    OutputApplicationEntityForm
   },
   data() {
     return {
-      destinationDialog: false,
+      applicationEntityDialog: false,
       isFormValid: false,
       didChangeAE: false,
       permittedAEs: [],
@@ -71,7 +77,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('destination', ['destinations']),
+    ...mapState('applicationEntity', ['applicationEntities']),
     ...mapState('auth', ['user']),
     didEdit() {
       return this.currentAETitle !== this.aeTitle || this.didChangeAE
@@ -87,9 +93,9 @@ export default {
     },
     async getUserPermittedAEs() {
       const URL = '/user/permitted-ae'
-      const userPermittedDestinations = await generic_get(this, URL)
-      userPermittedDestinations.forEach(permitted => {
-        this.permittedAEs.push(permitted.destination)
+      const userPermittedApplicationEntities = await generic_get(this, URL)
+      userPermittedApplicationEntities.forEach(permitted => {
+        this.permittedAEs.push(permitted.applicationEntity)
       })
     },
     async saveUserAETitle() {
@@ -100,7 +106,7 @@ export default {
     async savePermittedAETitles() {
       const URL = '/user/permitted-ae'
       const payload = {
-        destinations: this.permittedAEs
+        applicationEntities: this.permittedAEs
       }
       await generic_post(this, URL, payload)
     },
@@ -118,7 +124,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('destination/fetchDestinations')
+    this.$store.dispatch('applicationEntity/fetchApplicationEntities')
     this.getUserInfo()
     this.getUserPermittedAEs()
   }

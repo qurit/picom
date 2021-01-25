@@ -286,7 +286,7 @@ def add_container_to_pipeline(container, pipeline, authorization_header):
                 "y": 0,
                 "container_is_input": False,
                 "container_is_output": False,
-                "destination_id": 0
+                "association_entity_id": 0
                 }
             ],
             "links": []

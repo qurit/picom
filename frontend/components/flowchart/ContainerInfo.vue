@@ -3,7 +3,9 @@
     <v-row class="ma-2">
       <v-col cols="12"> Container Name: {{ this.container.name }} </v-col>
       <v-col cols="12"> Description: {{ this.container.description }}</v-col>
-      <v-col cols="12"> Destination: {{ node.destination || 'N/A' }}</v-col>
+      <v-col cols="12">
+        Application Entity: {{ node.applicationEntity || 'N/A' }}</v-col
+      >
     </v-row>
   </v-card>
 </template>

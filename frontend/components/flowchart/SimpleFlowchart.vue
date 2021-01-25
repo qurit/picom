@@ -23,7 +23,7 @@
         :options="nodeOptions"
         :colors="colors.container"
         :canEdit="canEdit"
-        @setDestination="setDestinations"
+        @setApplicationEntity="setApplicationEntities"
         @linkingStart="linkingStart(node.id)"
         @linkingStop="linkingStop(node.id)"
         @nodeSelected="nodeSelected(node.id, $event)"
@@ -91,7 +91,7 @@ export default {
       top: 0,
       left: 0
     },
-    pipelineNodeDestinations: []
+    pipelineNodeApplicationEntities: []
   }),
   computed: {
     nodeOptions: ctx => ({
@@ -139,15 +139,16 @@ export default {
     this.rootDivOffset.left = this.$el ? this.$el.offsetLeft : 0
   },
   methods: {
-    setDestinations(destination) {
-      const index = this.pipelineNodeDestinations.findIndex(
-        pipelineDestination =>
-          pipelineDestination.pipelineNodeId === destination.pipelineNodeId
+    setApplicationEntities(applicationEntity) {
+      const index = this.pipelineNodeApplicationEntities.findIndex(
+        pipelineApplicationEntity =>
+          pipelineApplicationEntity.pipelineNodeId ===
+          applicationEntity.pipelineNodeId
       )
       if (index >= 0) {
-        this.pipelineNodeDestinations.splice(index, 1)
+        this.pipelineNodeApplicationEntities.splice(index, 1)
       }
-      this.pipelineNodeDestinations.push(destination)
+      this.pipelineNodeApplicationEntities.push(applicationEntity)
     },
     findNodeWithID(id) {
       return this.scene.nodes.find(item => id === item.id)
@@ -305,12 +306,15 @@ export default {
           container_is_input: node.container_is_input,
           container_is_output: node.container_is_output
         }
-        // if there is a node with a destination, then save the destination as well
-        this.pipelineNodeDestinations.forEach(pipelineNodeDestination => {
-          if (pipelineNodeDestination.pipelineNodeId === node.id) {
-            newPipelineNode['destination_id'] = pipelineNodeDestination.destinationId
+        // if there is a node with an application entity, then save the application entity as well
+        this.pipelineNodeApplicationEntities.forEach(
+          pipelineNodeApplicationEntity => {
+            if (pipelineNodeApplicationEntity.pipelineNodeId === node.id) {
+              newPipelineNode['application_entity_id'] =
+                pipelineNodeApplicationEntity.applicationEntityId
+            }
           }
-        })
+        )
         nodeArray.push(newPipelineNode)
       })
       this.savedLinks.forEach(link => {
@@ -321,21 +325,20 @@ export default {
         linkArray.push(newPipelineLink)
       })
 
-      const PAYLOAD = {nodes: nodeArray, links: linkArray}
+      const PAYLOAD = { nodes: nodeArray, links: linkArray }
       const URL = `/pipeline/${this.id}`
       try {
         await generic_post(this, URL, PAYLOAD)
         this.$toaster.toastSuccess('Pipeline saved!')
       } catch (e) {
-        let msg = 'Something went wrong, please make sure your pipeline is properly formed'
+        let msg =
+          'Something went wrong, please make sure your pipeline is properly formed'
 
         try {
           msg = e.response.data.detail[0].msg
         } finally {
           this.$toaster.toastError(msg)
         }
-
-
       }
     },
     checkSaved() {

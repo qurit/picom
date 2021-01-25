@@ -97,7 +97,7 @@ def dicom_output_task(run_id: int, node_id: int, previous_job_id: int):
         job = PipelineJob(pipeline_run_id=run_id, pipeline_node_id=node_id, status='Created')
         job.save(db)
 
-        if dest := job.node.destination:
+        if dest := job.node.application_entity:
             prev: PipelineJob = PipelineJob.query(db).get(previous_job_id)
             print(prev)
 
@@ -107,7 +107,3 @@ def dicom_output_task(run_id: int, node_id: int, previous_job_id: int):
     with worker_session() as db:
         job.status = 'exited'
         job.save(db)
-
-
-
-

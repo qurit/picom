@@ -102,7 +102,7 @@ import {
   ContainerDrawer
 } from '~/components/flowchart'
 import { ContainerForm } from '~/components/container'
-import { OutputDestinationForm } from '~/components/pipeline'
+import { OutputApplicationEntityForm } from '~/components/pipeline'
 import VIconBtn from '~/components/global/v-icon-btn'
 
 export default {
@@ -166,7 +166,7 @@ export default {
           label: node.container.description,
           container_is_input: node.container_is_input,
           container_is_output: node.container_is_output,
-          destination: node.destination
+          application_entity: node.application_entity
         }
         this.scene.nodes.push(containerNode)
       })
