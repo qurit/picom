@@ -11,4 +11,4 @@ from . import Base
 class ApplicationEntity(Base):
     host = Column(String)
     port = Column(Integer)
-    full_name = Column(String)
+    ae_title = Column(String)

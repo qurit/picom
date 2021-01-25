@@ -20,7 +20,7 @@
         v-if="container_is_output"
         v-model="selected"
         :items="applicationEntities"
-        item-text="full_name"
+        item-text="ae_title"
         item-value="id"
         label="Application Entity"
         dense

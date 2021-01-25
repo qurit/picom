@@ -4,7 +4,7 @@ from . import BaseModel, BaseORMModel
 class ApplicationEntity(BaseORMModel):
     host: str
     port: int
-    full_name: str
+    ae_title: str
 
 
 class CreateApplicationEntity(BaseModel):

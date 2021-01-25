@@ -23,6 +23,6 @@ def get_all_ae(db: Session = Depends(session)):
 def create_ae(ae: application_entity.CreateApplicationEntity, db: Session = Depends(session)):
     """ Create a new application entity"""
     new_ae = ApplicationEntity(
-        host=ae.host, port=.port, full_name=ae.host + " " + str(ae.port))
+        host=ae.host, port=.port, ae_title=ae.host + " " + str(ae.port))
     new_ae.save(db)
     return new_ae

@@ -20,7 +20,7 @@
       hint="Choose which Application Entities can send to you"
       persistent-hint
       :items="applicationEntities"
-      item-text="full_name"
+      item-text="ae_title"
       return-object
       label="Allowed Application Entities"
       v-model="permittedAEs"
